@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Introdução ao myfuns 0.5.0</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Introdução ao myfuns 0.5.0</h1>
+
+
+
+<div id="finalidade" class="section level1">
+<h1>Finalidade</h1>
+<p><code>myfuns</code> é uma camada de apoio para análise estatística
+aplicada à experimentação agrícola. A versão 0.5.0 preserva as funções
+históricas e acrescenta vinte funções para auditoria de delineamentos,
+descrição, ANOVA, <code>emmeans</code>, regressão quantitativa,
+diagnóstico, modelos mistos, contagens, PCA, Bayes e exportação de
+figuras.</p>
+<p>A filosofia do pacote é auxiliar o fluxo de trabalho sem substituir
+decisões científicas. Nenhuma função seleciona tratamento, modelo,
+distribuição ou grau polinomial apenas com base em um valor de p.</p>
+</div>
+<div id="organização-funcional" class="section level1">
+<h1>Organização funcional</h1>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Etapa</th>
+<th>Funções principais</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Verificação do banco</td>
+<td><code>auditar_delineamento()</code>, <code>resumo_agri()</code></td>
+</tr>
+<tr class="even">
+<td>ANOVA</td>
+<td><code>anovaCV()</code>, <code>anova_agri()</code></td>
+</tr>
+<tr class="odd">
+<td>Médias e contrastes</td>
+<td><code>emmeans_lista()</code>, <code>comparar_emmeans()</code>,
+<code>contrast_lista()</code>, <code>cld_lista()</code>,
+<code>contraste_poly()</code></td>
+</tr>
+<tr class="even">
+<td>Fatores quantitativos</td>
+<td><code>reg_poly()</code>, <code>ponto_critico()</code>,
+<code>equar2()</code>, <code>plot_reg()</code></td>
+</tr>
+<tr class="odd">
+<td>Diagnóstico</td>
+<td><code>diagnostico_modelo()</code>,
+<code>diagnostico_contagem()</code></td>
+</tr>
+<tr class="even">
+<td>Modelos mistos</td>
+<td><code>resumo_misto()</code></td>
+</tr>
+<tr class="odd">
+<td>Comparação de modelos</td>
+<td><code>comparar_modelos()</code></td>
+</tr>
+<tr class="even">
+<td>PCA</td>
+<td><code>pca_agri()</code>, <code>plot_pca_agri()</code></td>
+</tr>
+<tr class="odd">
+<td>Bayes</td>
+<td><code>resumo_bayes()</code></td>
+</tr>
+<tr class="even">
+<td>Gráficos</td>
+<td><code>plot_emmeans()</code>, <code>theme_nogrid()</code>,
+<code>theme_nogridacp()</code>, <code>theme_transparent()</code>,
+<code>trans</code></td>
+</tr>
+<tr class="odd">
+<td>Exportação</td>
+<td><code>ExportTimes()</code>, <code>export_figuras()</code></td>
+</tr>
+<tr class="even">
+<td>Área de transferência</td>
+<td><code>read_clipboard_table()</code>,
+<code>write_clipboard_table()</code> e aliases históricos</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="exemplo-integrado-delineamento-em-blocos-com-doses" class="section level1">
+<h1>Exemplo integrado: delineamento em blocos com doses</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>dados <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="at">bloco =</span> <span class="fu">factor</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>),</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="at">dose =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">150</span>, <span class="dv">200</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>dados<span class="sc">$</span>produtividade <span class="ot">&lt;-</span> <span class="fu">with</span>(</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>  dados,</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>  <span class="dv">40</span> <span class="sc">+</span> <span class="fl">0.20</span> <span class="sc">*</span> dose <span class="sc">-</span> <span class="fl">0.00065</span> <span class="sc">*</span> dose<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>    <span class="fu">rep</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span>), <span class="at">each =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>    <span class="fu">rnorm</span>(<span class="fu">nrow</span>(dados), <span class="dv">0</span>, <span class="dv">2</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>)</span></code></pre></div>
+<div id="auditar-antes-de-modelar" class="section level2">
+<h2>1. Auditar antes de modelar</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">auditar_delineamento</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  dados,</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="at">tratamento =</span> dose,</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="at">bloco =</span> bloco,</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="at">resposta =</span> produtividade</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>)</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt; Auditoria do delineamento</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; -------------------------</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt;                         item valor</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt;                  Observações    25</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt;    Variáveis do delineamento     2</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt;             Células ausentes     0</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt;  Linhas em chaves duplicadas     0</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt;           Respostas ausentes     0</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt;                   Balanceado     1</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">#&gt; Mensagens:</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="co">#&gt; * Duplicação de unidade experimental não foi avaliada porque `unidade` não foi informada.</span></span></code></pre></div>
+</div>
+<div id="resumir-os-dados-observados" class="section level2">
+<h2>2. Resumir os dados observados</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">resumo_agri</span>(dados, produtividade, dose)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt;   dose n n_total n_ausentes    media       dp erro_padrao ic_inferior</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; 1    0 5       5          0 37.53150 1.278029   0.5715517    35.94462</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; 2   50 5       5          0 47.52236 1.964391   0.8785025    45.08325</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; 3  100 5       5          0 51.84689 1.967442   0.8798666    49.40399</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; 4  150 5       5          0 58.20140 1.584726   0.7087110    56.23370</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; 5  200 5       5          0 52.85146 2.048481   0.9161087    50.30793</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt;   ic_superior  mediana       q1       q3   minimo   maximo       cv</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; 1    39.11838 37.83050 36.66672 38.27848 35.84062 39.04118 3.405216</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; 2    49.96148 47.90471 47.33476 48.42742 44.34282 49.60211 4.133615</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt; 3    54.28979 52.68357 52.03913 53.04837 48.40624 53.05713 3.794715</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt; 4    60.16910 58.60782 57.81013 58.75449 55.76556 60.06900 2.722831</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt; 5    55.39499 52.67064 52.34266 53.09641 50.21594 55.93165 3.875922</span></span></code></pre></div>
+</div>
+<div id="ajustar-o-fator-quantitativo" class="section level2">
+<h2>3. Ajustar o fator quantitativo</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>rp <span class="ot">&lt;-</span> <span class="fu">reg_poly</span>(dados, produtividade, dose, <span class="at">degree =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>rp</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; Regressão polinomial</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; --------------------</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; Resposta: produtividade</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; Preditor: dose</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; Modelo principal para predição: grau 2</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; Comparação descritiva dos modelos:</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt;  grau  n        R2 R2_ajustado     RMSE      AIC     AICc      BIC</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt;     1 25 0.6763395   0.6622673 4.042285 146.7874 147.9303 150.4441</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt;     2 25 0.9086325   0.9003264 2.147721 117.1673 119.1673 122.0428</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; Teste de falta de ajuste:</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt;  grau gl_falta_ajuste SQ_falta_ajuste         F      p_valor</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt;     1               3       344.21902 35.698522 3.189170e-08</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt;     2               2        51.03499  7.939163 2.897199e-03</span></span></code></pre></div>
+<p>A tabela comparativa não representa seleção automática. O pesquisador
+deve avaliar forma da resposta, falta de ajuste, incerteza, domínio
+experimental, diagnóstico dos resíduos e coerência agronômica.</p>
+</div>
+<div id="obter-o-ponto-crítico" class="section level2">
+<h2>4. Obter o ponto crítico</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">ponto_critico</span>(rp)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt;   x_critico y_predito classificacao dentro_intervalo ic_inferior ic_superior</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt; 1  150.4741  55.76935        máximo             TRUE    135.1422    165.8059</span></span></code></pre></div>
+</div>
+<div id="produzir-a-figura" class="section level2">
+<h2>5. Produzir a figura</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">plot_reg</span>(rp)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+</div>
+<div id="delineamento-qualitativo-e-médias-ajustadas" class="section level1">
+<h1>Delineamento qualitativo e médias ajustadas</h1>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>dq <span class="ot">&lt;-</span> <span class="fu">transform</span>(dados, <span class="at">dose_f =</span> <span class="fu">factor</span>(dose))</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">lm</span>(produtividade <span class="sc">~</span> bloco <span class="sc">+</span> dose_f, <span class="at">data =</span> dq)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="fu">anova_agri</span>(m)</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; ANOVA agrícola</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; --------------</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt; Analysis of Variance Table</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; Response: produtividade</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt;           Df  Sum Sq Mean Sq F value    Pr(&gt;F)    </span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt; bloco      4    5.45   1.363  0.3708    0.8259    </span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt; dose_f     4 1197.85 299.462 81.4464 1.989e-10 ***</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; Residuals 16   58.83   3.677                      </span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt; CV experimental: 3.87%</span></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt; Tamanho de efeito:</span></span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="co">#&gt; # Effect Size for ANOVA (Type I)</span></span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a><span class="co">#&gt; Parameter | Eta2 (partial) |       95% CI</span></span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a><span class="co">#&gt; -----------------------------------------</span></span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a><span class="co">#&gt; bloco     |           0.08 | [0.00, 1.00]</span></span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a><span class="co">#&gt; dose_f    |           0.95 | [0.90, 1.00]</span></span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a><span class="co">#&gt; - One-sided CIs: upper bound fixed at [1.00].</span></span>
+<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a>cmp <span class="ot">&lt;-</span> <span class="fu">comparar_emmeans</span>(m, <span class="sc">~</span> dose_f, <span class="at">method =</span> <span class="st">&quot;pairwise&quot;</span>, <span class="at">adjust =</span> <span class="st">&quot;tukey&quot;</span>)</span>
+<span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a><span class="fu">plot_emmeans</span>(cmp, <span class="at">data =</span> dq, <span class="at">x =</span> dose_f, <span class="at">y =</span> produtividade)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+<div id="contrastes-polinomiais-com-doses-reais" class="section level1">
+<h1>Contrastes polinomiais com doses reais</h1>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>emm <span class="ot">&lt;-</span> emmeans<span class="sc">::</span><span class="fu">emmeans</span>(m, <span class="sc">~</span> dose_f)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>cp <span class="ot">&lt;-</span> <span class="fu">contraste_poly</span>(emm, <span class="at">scores =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">150</span>, <span class="dv">200</span>), <span class="at">degree =</span> <span class="dv">2</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>cp</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">#&gt; Contrastes polinomiais</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt; -----------------------</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#&gt; Método: opoly</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt; Escores: 0=0, 50=50, 100=100, 150=150, 200=200</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt; Espaçamento regular: sim</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt;  contrast   estimate        SE df  lower.CL  upper.CL t.ratio p.value</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt;  linear    13.066202 0.8575308 16 11.248318 14.884086  15.237 &lt;0.0001</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt;  quadratic -7.657467 0.8575308 16 -9.475351 -5.839583  -8.930 &lt;0.0001</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt; Results are averaged over the levels of: bloco </span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt; Confidence level used: 0.95</span></span></code></pre></div>
+<p>Para doses desigualmente espaçadas, <code>contraste_poly()</code> usa
+<code>opoly</code> quando <code>normalized = TRUE</code>, preservando os
+valores quantitativos informados em <code>scores</code>.</p>
+</div>
+<div id="próximas-vinhetas" class="section level1">
+<h1>Próximas vinhetas</h1>
+<p>Consulte as vinhetas temáticas para exemplos mais extensos:</p>
+<ol style="list-style-type: decimal">
+<li>delineamento, descrição e ANOVA;</li>
+<li>médias marginais e contrastes;</li>
+<li>regressão quantitativa;</li>
+<li>diagnóstico, modelos mistos e contagens;</li>
+<li>PCA;</li>
+<li>Bayes e produtividade;</li>
+<li>gráficos e exportação.</li>
+</ol>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

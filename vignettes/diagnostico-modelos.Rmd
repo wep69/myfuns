@@ -1,0 +1,145 @@
+---
+title: "Diagnóstico, modelos mistos e dados de contagem"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Diagnóstico, modelos mistos e dados de contagem}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(myfuns)
+```
+
+# Princípio geral
+
+Diagnóstico não deve ser reduzido a um teste de normalidade ou a um único valor de p. As funções desta vinheta organizam evidências e preservam os objetos originais para inspeção detalhada.
+
+# `diagnostico_modelo()`
+
+## Exemplo 1: modelo linear
+
+```{r}
+m1 <- lm(weight ~ group, data = PlantGrowth)
+d1 <- diagnostico_modelo(m1, plot = FALSE)
+d1$informacoes
+```
+
+## Exemplo 2: Poisson
+
+```{r}
+mp <- glm(breaks ~ wool * tension, poisson, data = warpbreaks)
+d2 <- diagnostico_modelo(mp, simulations = 300, plot = FALSE)
+d2$verificacoes
+```
+
+## Exemplo 3: `glmmTMB`
+
+```{r eval=FALSE}
+mnb <- glmmTMB::glmmTMB(
+  breaks ~ wool * tension,
+  family = glmmTMB::nbinom2,
+  data = warpbreaks
+)
+diagnostico_modelo(mnb, simulations = 1000, plot = TRUE)
+```
+
+Quando `performance` está instalado, a função agrega verificações de heterocedasticidade, colinearidade, observações influentes, dispersão, zeros, convergência e singularidade conforme a classe do modelo. Para `glm`, `glmerMod` e `glmmTMB`, se `DHARMa` estiver disponível, `simulations` controla o número de simulações usadas para produzir resíduos escalonados e verificações complementares de uniformidade, dispersão e observações discrepantes.
+
+# `resumo_misto()`
+
+## Exemplo 1: intercepto aleatório
+
+```{r eval=FALSE}
+mri <- lme4::lmer(Reaction ~ Days + (1 | Subject), data = lme4::sleepstudy)
+resumo_misto(mri)
+```
+
+## Exemplo 2: intercepto e inclinação aleatórios
+
+```{r eval=FALSE}
+mrs <- lme4::lmer(Reaction ~ Days + (Days | Subject), data = lme4::sleepstudy)
+resumo_misto(mrs)
+```
+
+## Exemplo 3: GLMM binomial e exponenciação
+
+```{r eval=FALSE}
+mg <- lme4::glmer(
+  cbind(incidence, size - incidence) ~ period + (1 | herd),
+  family = binomial,
+  data = lme4::cbpp
+)
+resumo_misto(mg, exponentiate = TRUE)
+```
+
+A saída reúne efeitos fixos, ICs de Wald, componentes aleatórios e, com `performance`, medidas como ICC e R² marginal/condicional, além das verificações de convergência e singularidade.
+
+# `diagnostico_contagem()`
+
+## Exemplo 1: Poisson
+
+```{r}
+dc1 <- diagnostico_contagem(mp, simulations = 300)
+dc1$descritivo
+dc1$dispersao_pearson
+```
+
+## Exemplo 2: binomial negativa
+
+```{r eval=FALSE}
+mnb2 <- MASS::glm.nb(breaks ~ wool * tension, data = warpbreaks)
+diagnostico_contagem(mnb2, simulations = 500)
+```
+
+## Exemplo 3: modelo com componente de zeros
+
+```{r eval=FALSE}
+mzi <- glmmTMB::glmmTMB(
+  breaks ~ tension,
+  ziformula = ~ 1,
+  family = glmmTMB::nbinom2,
+  data = warpbreaks
+)
+diagnostico_contagem(mzi, simulations = 1000)
+```
+
+Se `DHARMa` estiver instalado, são armazenados resíduos simulados e testes de dispersão, zeros e observações discrepantes. A função nunca muda a família do modelo automaticamente.
+
+# `comparar_modelos()`
+
+```{r}
+set.seed(10)
+d <- data.frame(x = rep(0:4, each = 5))
+d$y <- 4 + 1.2 * d$x - 0.15 * d$x^2 + rnorm(nrow(d))
+ml <- lm(y ~ x, data = d)
+mq <- lm(y ~ x + I(x^2), data = d)
+```
+
+## Exemplo 1: linear versus quadrático
+
+```{r}
+comparar_modelos(linear = ml, quadratico = mq)
+```
+
+## Exemplo 2: Poisson versus binomial negativa
+
+```{r eval=FALSE}
+mp2 <- glm(breaks ~ wool * tension, poisson, data = warpbreaks)
+mnb3 <- MASS::glm.nb(breaks ~ wool * tension, data = warpbreaks)
+comparar_modelos(poisson = mp2, negbin = mnb3)
+```
+
+## Exemplo 3: métricas específicas
+
+```{r}
+comparar_modelos(
+  linear = ml,
+  quadratico = mq,
+  metrics = c("AICc", "BIC", "RMSE"),
+  rank_by = "AICc"
+)
+```
+
+A ordenação por uma métrica é somente uma forma de organizar a tabela. A escolha final deve considerar comparabilidade, delineamento, diagnóstico, interpretação e finalidade do modelo.

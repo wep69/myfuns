@@ -1,0 +1,83 @@
+---
+title: "Análise de componentes principais"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Análise de componentes principais}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(myfuns)
+```
+
+# `pca_agri()`
+
+A função utiliza `stats::prcomp()` e mantém o objeto original. Ela não remove linhas com dados ausentes e interrompe o ajuste quando encontra variáveis sem variabilidade.
+
+## Exemplo 1: PCA padronizada com grupo
+
+```{r}
+pca1 <- pca_agri(
+  iris,
+  vars = c(Sepal.Length, Sepal.Width, Petal.Length, Petal.Width),
+  group = Species
+)
+pca1
+```
+
+## Exemplo 2: sem padronização
+
+```{r}
+pca2 <- pca_agri(
+  iris,
+  vars = c(Sepal.Length, Sepal.Width, Petal.Length, Petal.Width),
+  scale = FALSE
+)
+pca2$variancia
+```
+
+## Exemplo 3: limitar componentes reportados
+
+```{r}
+pca3 <- pca_agri(
+  iris,
+  vars = c(Sepal.Length, Sepal.Width, Petal.Length, Petal.Width),
+  ncomp = 3
+)
+pca3$contribuicao
+```
+
+# Componentes da saída
+
+```{r}
+head(pca1$escores)
+pca1$cargas
+pca1$variancia
+pca1$contribuicao
+```
+
+# `plot_pca_agri()`
+
+## Exemplo 1: biplot
+
+```{r fig.width=6, fig.height=5}
+plot_pca_agri(pca1, type = "biplot")
+```
+
+## Exemplo 2: escores com elipses
+
+```{r fig.width=6, fig.height=5}
+plot_pca_agri(pca1, type = "scores", ellipse = TRUE)
+```
+
+## Exemplo 3: cargas PC1 × PC3
+
+```{r fig.width=6, fig.height=5}
+plot_pca_agri(pca3, axes = c(1, 3), type = "loadings", labels = TRUE)
+```
+
+# Interpretação
+
+A variância explicada informa quanto da variabilidade total é representado por cada componente. As cargas indicam associação entre variáveis originais e componentes. A interpretação deve levar em conta a escala das variáveis e a decisão de padronizar ou não o conjunto.

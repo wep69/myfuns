@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Médias marginais estimadas e contrastes</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Médias marginais estimadas e
+contrastes</h1>
+
+
+
+<div id="preparação" class="section level1">
+<h1>Preparação</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>dados <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="at">trat =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>), <span class="at">each =</span> <span class="dv">5</span>)),</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="at">bloco =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">times =</span> <span class="dv">4</span>)),</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="at">altura =</span> <span class="fu">c</span>(<span class="dv">30</span>,<span class="dv">31</span>,<span class="dv">29</span>,<span class="dv">32</span>,<span class="dv">30</span>, <span class="dv">35</span>,<span class="dv">34</span>,<span class="dv">36</span>,<span class="dv">35</span>,<span class="dv">34</span>, <span class="dv">40</span>,<span class="dv">39</span>,<span class="dv">41</span>,<span class="dv">42</span>,<span class="dv">40</span>, <span class="dv">38</span>,<span class="dv">37</span>,<span class="dv">39</span>,<span class="dv">38</span>,<span class="dv">40</span>),</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="at">massa =</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">11</span>,<span class="dv">10</span>,<span class="dv">9</span>,<span class="dv">10</span>, <span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">12</span>,<span class="dv">12</span>,<span class="dv">11</span>, <span class="dv">16</span>,<span class="dv">15</span>,<span class="dv">17</span>,<span class="dv">16</span>,<span class="dv">16</span>, <span class="dv">14</span>,<span class="dv">15</span>,<span class="dv">14</span>,<span class="dv">13</span>,<span class="dv">14</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>m_altura <span class="ot">&lt;-</span> <span class="fu">lm</span>(altura <span class="sc">~</span> bloco <span class="sc">+</span> trat, <span class="at">data =</span> dados)</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>m_massa <span class="ot">&lt;-</span> <span class="fu">lm</span>(massa <span class="sc">~</span> bloco <span class="sc">+</span> trat, <span class="at">data =</span> dados)</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>mods <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">altura =</span> m_altura, <span class="at">massa =</span> m_massa)</span></code></pre></div>
+</div>
+<div id="emmeans_lista" class="section level1">
+<h1><code>emmeans_lista()</code></h1>
+<div id="exemplo-1-duas-respostas" class="section level2">
+<h2>Exemplo 1: duas respostas</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>lista_emm <span class="ot">&lt;-</span> <span class="fu">emmeans_lista</span>(mods, <span class="sc">~</span> trat)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>lista_emm</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt; $altura</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt;  trat emmean    SE df lower.CL upper.CL</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt;  A      30.4 0.473 12     29.4     31.4</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt;  B      34.8 0.473 12     33.8     35.8</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt;  C      40.4 0.473 12     39.4     41.4</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt;  D      38.4 0.473 12     37.4     39.4</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; Results are averaged over the levels of: bloco </span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt; Confidence level used: 0.95 </span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; $massa</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt;  trat emmean    SE df lower.CL upper.CL</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt;  A        10 0.303 12     9.34     10.7</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt;  B        12 0.303 12    11.34     12.7</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">#&gt;  C        16 0.303 12    15.34     16.7</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="co">#&gt;  D        14 0.303 12    13.34     14.7</span></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a><span class="co">#&gt; Results are averaged over the levels of: bloco </span></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a><span class="co">#&gt; Confidence level used: 0.95</span></span></code></pre></div>
+</div>
+<div id="exemplo-2-selecionar-um-modelo" class="section level2">
+<h2>Exemplo 2: selecionar um modelo</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">emmeans_lista</span>(mods, <span class="sc">~</span> trat, <span class="at">which =</span> <span class="dv">2</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; $massa</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt;  trat emmean    SE df lower.CL upper.CL</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt;  A        10 0.303 12     9.34     10.7</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt;  B        12 0.303 12    11.34     12.7</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt;  C        16 0.303 12    15.34     16.7</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt;  D        14 0.303 12    13.34     14.7</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; Results are averaged over the levels of: bloco </span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; Confidence level used: 0.95</span></span></code></pre></div>
+</div>
+<div id="exemplo-3-glm-na-escala-de-resposta" class="section level2">
+<h2>Exemplo 3: GLM na escala de resposta</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>mp <span class="ot">&lt;-</span> <span class="fu">glm</span>(breaks <span class="sc">~</span> wool <span class="sc">*</span> tension, poisson, <span class="at">data =</span> warpbreaks)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">emmeans_lista</span>(<span class="fu">list</span>(<span class="at">quebras =</span> mp), <span class="sc">~</span> tension <span class="sc">|</span> wool, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; $quebras</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; wool = A:</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt;  tension rate   SE  df asymp.LCL asymp.UCL</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt;  L       44.6 2.22 Inf      40.4      49.1</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt;  M       24.0 1.63 Inf      21.0      27.4</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt;  H       24.6 1.65 Inf      21.5      28.0</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; wool = B:</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt;  tension rate   SE  df asymp.LCL asymp.UCL</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt;  L       28.2 1.77 Inf      25.0      31.9</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt;  M       28.8 1.79 Inf      25.5      32.5</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt;  H       18.8 1.44 Inf      16.1      21.8</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt; Confidence level used: 0.95 </span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt; Intervals are back-transformed from the log scale</span></span></code></pre></div>
+</div>
+</div>
+<div id="contrast_lista" class="section level1">
+<h1><code>contrast_lista()</code></h1>
+<div id="exemplo-1-tukey" class="section level2">
+<h2>Exemplo 1: Tukey</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">contrast_lista</span>(lista_emm, <span class="at">method =</span> <span class="st">&quot;pairwise&quot;</span>, <span class="at">adjust =</span> <span class="st">&quot;tukey&quot;</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt; $altura</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt;  contrast estimate    SE df t.ratio p.value</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt;  A - B        -4.4 0.668 12  -6.584  0.0001</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt;  A - C       -10.0 0.668 12 -14.963 &lt;0.0001</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt;  A - D        -8.0 0.668 12 -11.970 &lt;0.0001</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt;  B - C        -5.6 0.668 12  -8.379 &lt;0.0001</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt;  B - D        -3.6 0.668 12  -5.387  0.0008</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt;  C - D         2.0 0.668 12   2.993  0.0480</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; Results are averaged over the levels of: bloco </span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; P value adjustment: tukey method for comparing a family of 4 estimates </span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt; $massa</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt;  contrast estimate    SE df t.ratio p.value</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt;  A - B          -2 0.428 12  -4.671  0.0026</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt;  A - C          -6 0.428 12 -14.013 &lt;0.0001</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt;  A - D          -4 0.428 12  -9.342 &lt;0.0001</span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt;  B - C          -4 0.428 12  -9.342 &lt;0.0001</span></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co">#&gt;  B - D          -2 0.428 12  -4.671  0.0026</span></span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co">#&gt;  C - D           2 0.428 12   4.671  0.0026</span></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="co">#&gt; Results are averaged over the levels of: bloco </span></span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt; P value adjustment: tukey method for comparing a family of 4 estimates</span></span></code></pre></div>
+</div>
+<div id="exemplo-2-tratamento-versus-controle" class="section level2">
+<h2>Exemplo 2: tratamento versus controle</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">contrast_lista</span>(lista_emm, <span class="at">method =</span> <span class="st">&quot;trt.vs.ctrl&quot;</span>, <span class="at">ref =</span> <span class="dv">1</span>, <span class="at">adjust =</span> <span class="st">&quot;dunnettx&quot;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt; $altura</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt;  contrast estimate    SE df t.ratio p.value</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt;  B - A         4.4 0.668 12   6.584 &lt;0.0001</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt;  C - A        10.0 0.668 12  14.963 &lt;0.0001</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt;  D - A         8.0 0.668 12  11.970 &lt;0.0001</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; Results are averaged over the levels of: bloco </span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; P value adjustment: dunnettx method for 3 tests </span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt; $massa</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt;  contrast estimate    SE df t.ratio p.value</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co">#&gt;  B - A           2 0.428 12   4.671  0.0015</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co">#&gt;  C - A           6 0.428 12  14.013 &lt;0.0001</span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co">#&gt;  D - A           4 0.428 12   9.342 &lt;0.0001</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co">#&gt; Results are averaged over the levels of: bloco </span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co">#&gt; P value adjustment: dunnettx method for 3 tests</span></span></code></pre></div>
+</div>
+<div id="exemplo-3-contraste-planejado" class="section level2">
+<h2>Exemplo 3: contraste planejado</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>coef <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">&quot;A vs demais&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">contrast_lista</span>(lista_emm, <span class="at">method =</span> coef, <span class="at">adjust =</span> <span class="st">&quot;none&quot;</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; $altura</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt;  contrast    estimate   SE df t.ratio p.value</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt;  A vs demais     22.4 1.64 12  13.683 &lt;0.0001</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt; Results are averaged over the levels of: bloco </span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; $massa</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt;  contrast    estimate   SE df t.ratio p.value</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt;  A vs demais       12 1.05 12  11.442 &lt;0.0001</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; Results are averaged over the levels of: bloco</span></span></code></pre></div>
+</div>
+</div>
+<div id="cld_lista" class="section level1">
+<h1><code>cld_lista()</code></h1>
+<p>As letras são uma forma compacta de apresentar comparações, mas não
+devem ser interpretadas como prova de igualdade.</p>
+<div id="exemplo-1" class="section level2">
+<h2>Exemplo 1</h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">cld_lista</span>(lista_emm, <span class="at">adjust =</span> <span class="st">&quot;tukey&quot;</span>)</span></code></pre></div>
+</div>
+<div id="exemplo-2" class="section level2">
+<h2>Exemplo 2</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">cld_lista</span>(lista_emm, <span class="at">which =</span> <span class="dv">1</span>, <span class="at">adjust =</span> <span class="st">&quot;tukey&quot;</span>)</span></code></pre></div>
+</div>
+<div id="exemplo-3-margem-de-equivalência-definida-pelo-pesquisador" class="section level2">
+<h2>Exemplo 3: margem de equivalência definida pelo pesquisador</h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">cld_lista</span>(lista_emm, <span class="at">adjust =</span> <span class="st">&quot;tukey&quot;</span>, <span class="at">delta =</span> <span class="fl">1.0</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="comparar_emmeans" class="section level1">
+<h1><code>comparar_emmeans()</code></h1>
+<p>A função conserva o <code>emmGrid</code> e reúne tabela de médias,
+intervalos e contrastes.</p>
+<div id="exemplo-1-tukey-1" class="section level2">
+<h2>Exemplo 1: Tukey</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>cmp1 <span class="ot">&lt;-</span> <span class="fu">comparar_emmeans</span>(m_altura, <span class="sc">~</span> trat, <span class="at">method =</span> <span class="st">&quot;pairwise&quot;</span>, <span class="at">adjust =</span> <span class="st">&quot;tukey&quot;</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>cmp1</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="co">#&gt; Médias marginais estimadas</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co">#&gt; --------------------------</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co">#&gt;  trat emmean        SE df lower.CL upper.CL</span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="co">#&gt;  A      30.4 0.4725816 12 29.37033 31.42967</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co">#&gt;  B      34.8 0.4725816 12 33.77033 35.82967</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="co">#&gt;  C      40.4 0.4725816 12 39.37033 41.42967</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="co">#&gt;  D      38.4 0.4725816 12 37.37033 39.42967</span></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="co">#&gt; Results are averaged over the levels of: bloco </span></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co">#&gt; Confidence level used: 0.95 </span></span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="co">#&gt; Contrastes:</span></span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="co">#&gt;  contrast estimate        SE df   lower.CL  upper.CL t.ratio p.value</span></span>
+<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a><span class="co">#&gt;  A - B        -4.4 0.6683313 12  -6.384209 -2.415791  -6.584  0.0001</span></span>
+<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a><span class="co">#&gt;  A - C       -10.0 0.6683313 12 -11.984209 -8.015791 -14.963 &lt;0.0001</span></span>
+<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a><span class="co">#&gt;  A - D        -8.0 0.6683313 12  -9.984209 -6.015791 -11.970 &lt;0.0001</span></span>
+<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a><span class="co">#&gt;  B - C        -5.6 0.6683313 12  -7.584209 -3.615791  -8.379 &lt;0.0001</span></span>
+<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a><span class="co">#&gt;  B - D        -3.6 0.6683313 12  -5.584209 -1.615791  -5.387  0.0008</span></span>
+<span id="cb11-21"><a href="#cb11-21" tabindex="-1"></a><span class="co">#&gt;  C - D         2.0 0.6683313 12   0.015791  3.984209   2.993  0.0480</span></span>
+<span id="cb11-22"><a href="#cb11-22" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb11-23"><a href="#cb11-23" tabindex="-1"></a><span class="co">#&gt; Results are averaged over the levels of: bloco </span></span>
+<span id="cb11-24"><a href="#cb11-24" tabindex="-1"></a><span class="co">#&gt; Confidence level used: 0.95 </span></span>
+<span id="cb11-25"><a href="#cb11-25" tabindex="-1"></a><span class="co">#&gt; Conf-level adjustment: tukey method for comparing a family of 4 estimates </span></span>
+<span id="cb11-26"><a href="#cb11-26" tabindex="-1"></a><span class="co">#&gt; P value adjustment: tukey method for comparing a family of 4 estimates</span></span></code></pre></div>
+</div>
+<div id="exemplo-2-dunnett" class="section level2">
+<h2>Exemplo 2: Dunnett</h2>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>cmp2 <span class="ot">&lt;-</span> <span class="fu">comparar_emmeans</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  m_altura,</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="sc">~</span> trat,</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">&quot;trt.vs.ctrl&quot;</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>  <span class="at">adjust =</span> <span class="st">&quot;dunnettx&quot;</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>  <span class="at">ref =</span> <span class="dv">1</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>)</span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>cmp2<span class="sc">$</span>contrastes</span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="co">#&gt;  contrast estimate        SE df lower.CL  upper.CL t.ratio p.value</span></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="co">#&gt;  B - A         4.4 0.6683313 12 2.592182  6.207818   6.584 &lt;0.0001</span></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="co">#&gt;  C - A        10.0 0.6683313 12 8.192182 11.807818  14.963 &lt;0.0001</span></span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a><span class="co">#&gt;  D - A         8.0 0.6683313 12 6.192182  9.807818  11.970 &lt;0.0001</span></span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a><span class="co">#&gt; Results are averaged over the levels of: bloco </span></span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a><span class="co">#&gt; Confidence level used: 0.95 </span></span>
+<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a><span class="co">#&gt; Conf-level adjustment: dunnettx method for 3 estimates </span></span>
+<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a><span class="co">#&gt; P value adjustment: dunnettx method for 3 tests</span></span></code></pre></div>
+</div>
+<div id="exemplo-3-comparações-simples-em-interação" class="section level2">
+<h2>Exemplo 3: comparações simples em interação</h2>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>m_int <span class="ot">&lt;-</span> <span class="fu">lm</span>(breaks <span class="sc">~</span> wool <span class="sc">*</span> tension, <span class="at">data =</span> warpbreaks)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>cmp3 <span class="ot">&lt;-</span> <span class="fu">comparar_emmeans</span>(m_int, <span class="sc">~</span> tension <span class="sc">|</span> wool, <span class="at">method =</span> <span class="st">&quot;pairwise&quot;</span>, <span class="at">adjust =</span> <span class="st">&quot;tukey&quot;</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>cmp3<span class="sc">$</span>estimativas</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="co">#&gt; wool = A:</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="co">#&gt;  tension   emmean       SE df lower.CL upper.CL</span></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="co">#&gt;  L       44.55556 3.646761 48 37.22325 51.88786</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="co">#&gt;  M       24.00000 3.646761 48 16.66769 31.33231</span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="co">#&gt;  H       24.55556 3.646761 48 17.22325 31.88786</span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="co">#&gt; wool = B:</span></span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a><span class="co">#&gt;  tension   emmean       SE df lower.CL upper.CL</span></span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a><span class="co">#&gt;  L       28.22222 3.646761 48 20.88992 35.55453</span></span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a><span class="co">#&gt;  M       28.77778 3.646761 48 21.44547 36.11008</span></span>
+<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a><span class="co">#&gt;  H       18.77778 3.646761 48 11.44547 26.11008</span></span>
+<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a><span class="co">#&gt; Confidence level used: 0.95</span></span></code></pre></div>
+</div>
+</div>
+<div id="plot_emmeans" class="section level1">
+<h1><code>plot_emmeans()</code></h1>
+<div id="exemplo-1-emms-e-ic" class="section level2">
+<h2>Exemplo 1: EMMs e IC</h2>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">plot_emmeans</span>(cmp1)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+<div id="exemplo-2-dados-observados-e-emms" class="section level2">
+<h2>Exemplo 2: dados observados e EMMs</h2>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">plot_emmeans</span>(cmp1, <span class="at">data =</span> dados, <span class="at">x =</span> trat, <span class="at">y =</span> altura)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+<div id="exemplo-3-interação" class="section level2">
+<h2>Exemplo 3: interação</h2>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">plot_emmeans</span>(cmp3, <span class="at">data =</span> warpbreaks, <span class="at">x =</span> tension, <span class="at">y =</span> breaks)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+</div>
+<div id="contraste_poly" class="section level1">
+<h1><code>contraste_poly()</code></h1>
+<p>Esta função foi criada para reduzir um problema frequente em ensaios
+quantitativos: contrastes polinomiais construídos apenas pela ordem dos
+níveis podem não representar a escala real quando o espaçamento entre
+doses é irregular.</p>
+<div id="exemplo-1-níveis-igualmente-espaçados" class="section level2">
+<h2>Exemplo 1: níveis igualmente espaçados</h2>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">dose =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">150</span>), <span class="at">each =</span> <span class="dv">4</span>)), <span class="at">y =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">16</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> dose, <span class="at">data =</span> d1)</span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>em1 <span class="ot">&lt;-</span> emmeans<span class="sc">::</span><span class="fu">emmeans</span>(m1, <span class="sc">~</span> dose)</span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a><span class="fu">contraste_poly</span>(em1, <span class="at">scores =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">150</span>))</span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="co">#&gt; Contrastes polinomiais</span></span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a><span class="co">#&gt; -----------------------</span></span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a><span class="co">#&gt; Método: opoly</span></span>
+<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a><span class="co">#&gt; Escores: 0=0, 50=50, 100=100, 150=150</span></span>
+<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a><span class="co">#&gt; Espaçamento regular: sim</span></span>
+<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a><span class="co">#&gt;  contrast  estimate        SE df  lower.CL  upper.CL t.ratio p.value</span></span>
+<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a><span class="co">#&gt;  linear    8.944272 0.6454972 12  7.537854 10.350690  13.856 &lt;0.0001</span></span>
+<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a><span class="co">#&gt;  quadratic 0.000000 0.6454972 12 -1.406418  1.406418   0.000  1.0000</span></span>
+<span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a><span class="co">#&gt;  cubic     0.000000 0.6454972 12 -1.406418  1.406418   0.000  1.0000</span></span>
+<span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb17-16"><a href="#cb17-16" tabindex="-1"></a><span class="co">#&gt; Confidence level used: 0.95</span></span></code></pre></div>
+</div>
+<div id="exemplo-2-níveis-desigualmente-espaçados" class="section level2">
+<h2>Exemplo 2: níveis desigualmente espaçados</h2>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">dose =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">25</span>, <span class="dv">100</span>, <span class="dv">200</span>), <span class="at">each =</span> <span class="dv">4</span>)), <span class="at">y =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">16</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> dose, <span class="at">data =</span> d2)</span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>em2 <span class="ot">&lt;-</span> emmeans<span class="sc">::</span><span class="fu">emmeans</span>(m2, <span class="sc">~</span> dose)</span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>cp2 <span class="ot">&lt;-</span> <span class="fu">contraste_poly</span>(em2, <span class="at">scores =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">25</span>, <span class="dv">100</span>, <span class="dv">200</span>))</span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>cp2<span class="sc">$</span>scores</span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a><span class="co">#&gt;   0  25 100 200 </span></span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a><span class="co">#&gt;   0  25 100 200</span></span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a>cp2<span class="sc">$</span>igualmente_espacados</span>
+<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
+</div>
+<div id="exemplo-3-limitar-ao-quadrático" class="section level2">
+<h2>Exemplo 3: limitar ao quadrático</h2>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">contraste_poly</span>(em1, <span class="at">scores =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">150</span>), <span class="at">degree =</span> <span class="dv">2</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="co">#&gt; Contrastes polinomiais</span></span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a><span class="co">#&gt; -----------------------</span></span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a><span class="co">#&gt; Método: opoly</span></span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a><span class="co">#&gt; Escores: 0=0, 50=50, 100=100, 150=150</span></span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a><span class="co">#&gt; Espaçamento regular: sim</span></span>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a><span class="co">#&gt;  contrast  estimate        SE df  lower.CL  upper.CL t.ratio p.value</span></span>
+<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a><span class="co">#&gt;  linear    8.944272 0.6454972 12  7.537854 10.350690  13.856 &lt;0.0001</span></span>
+<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a><span class="co">#&gt;  quadratic 0.000000 0.6454972 12 -1.406418  1.406418   0.000  1.0000</span></span>
+<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a><span class="co">#&gt; Confidence level used: 0.95</span></span></code></pre></div>
+<p><code>normalized = TRUE</code> usa <code>opoly</code>.
+<code>normalized = FALSE</code> só é aceito quando os escores são
+igualmente espaçados.</p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
