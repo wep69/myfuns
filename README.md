@@ -2,6 +2,44 @@
 
 `myfuns` reúne funções auxiliares para análise estatística aplicada à experimentação agrícola e preparação de resultados científicos em R.
 
+## Estrutura do repositório
+
+```
+myfuns/
+├── R/                  # Código-fonte das 15 funções do pacote
+│   ├── anova-emmeans.R #   ANOVA organizada + médias marginais (anova_agri, emmeans_lista, comparar_emmeans, plot_emmeans)
+│   ├── anovaCV.R       #   Coeficiente de variação (anovaCV)
+│   ├── regressao.R     #   Regressão polinomial (reg_poly, ponto_critico, plot_reg, contraste_poly)
+│   ├── equar2.R        #   Coeficiente de determinação para equações (equar2)
+│   ├── pca.R           #   Análise de componentes principais (pca_agri, plot_pca_agri)
+│   ├── diagnosticos-modelos.R # Diagnóstico orientado por classe (diagnostico_modelo, diagnostico_contagem, comparar_modelos)
+│   ├── resumo_misto.R  #   (resumo_misto — merMod/glmmTMB)
+│   ├── delineamento-resumo.R # Auditoria de delineamento + resumo agronômico
+│   ├── plots-estatisticos.R  # Gráficos de médias marginais
+│   ├── bayes-export-clipboard.R # Resumo bayesiano + exportação de figuras
+│   ├── clipboard.R     #   Leitura/escrita de área de transferência
+│   ├── themes.R        #   Temas ggplot2 (theme_nogrid, theme_transparent)
+│   ├── ExportTimes.R   #   Exportação de figuras em múltiplos formatos
+│   ├── list_helpers.R  #   Utilitários de listas
+│   └── 00-utils.R      #   Funções auxiliares internas
+├── man/                # Documentação Rd gerada por roxygen2 (27 páginas)
+├── tests/              # Testes unitários com testthat (11 arquivos)
+├── vignettes/          # 8 vinhetas temáticas com exemplos completos
+│   ├── introducao-myfuns.Rmd        # Visão geral do pacote
+│   ├── delineamento-anova.Rmd       # ANOVA e delineamento experimental
+│   ├── emmeans-contrastes.Rmd       # Médias marginais e contrastes
+│   ├── regressao-equar2.Rmd         # Regressão polinomial e R²
+│   ├── diagnostico-modelos.Rmd      # Diagnóstico de modelos
+│   ├── graficos-publicacao.Rmd      # Gráficos para publicação
+│   ├── pca-agri.Rmd                 # Análise de componentes principais
+│   └── bayes-produtividade.Rmd      # Análise bayesiana
+├── inst/doc/           # Vinhetas pré-compiladas (HTML) + scripts R extraídos
+├── DESCRIPTION         # Metadados do pacote (versão, dependências, licença)
+├── NAMESPACE           # Exportações e importações
+├── LICENSE             # Licença (sem escolha formal ainda)
+└── NEWS.md             # Histórico de versões
+```
+
 ## O que há na versão 0.5.0
 
 A versão 0.5.0 preserva as funções históricas e implementa vinte funções novas:
@@ -46,9 +84,8 @@ O núcleo usa dependências pequenas. Recursos avançados são opcionais e ativa
 
 ## Documentação
 
-- `MANUAL.md`: manual completo em português;
-- `vignettes/`: vinhetas temáticas com fluxos completos;
-- `man/`: ajuda individual das funções;
+- `vignettes/`: 8 vinhetas temáticas com fluxos completos;
+- `man/`: ajuda individual das 27 funções exportadas;
 - `NEWS.md`: histórico das versões.
 
 ## Instalação a partir do código-fonte
