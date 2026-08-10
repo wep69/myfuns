@@ -181,3 +181,4 @@
   if (!is.finite(media) || abs(media) <= sqrt(.Machine$double.eps) || !is.finite(sigma)) return(NA_real_)
   100 * sigma / abs(media)
 }
+
