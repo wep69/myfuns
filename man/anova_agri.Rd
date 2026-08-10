@@ -32,3 +32,4 @@ anova_agri(m2, effect_size = "eta2")
 
 anova_agri(m1, cv = FALSE, effect_size = "eta2_partial")
 }
+
