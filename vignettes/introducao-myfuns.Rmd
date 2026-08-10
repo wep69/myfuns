@@ -121,3 +121,4 @@ Consulte as vinhetas temáticas para exemplos mais extensos:
 5. PCA;
 6. Bayes e produtividade;
 7. gráficos e exportação.
+
