@@ -993,3 +993,4 @@ export_figuras(
 # Recomendações de uso
 
 Para variáveis contínuas, prefira mostrar observações ou distribuição juntamente com estimativas e incerteza. `plot_emmeans()` e `plot_reg()` foram adicionadas justamente para facilitar esse padrão de apresentação.
+
