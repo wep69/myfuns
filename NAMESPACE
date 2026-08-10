@@ -40,3 +40,4 @@ S3method(print,myfuns_emmeans)
 S3method(print,myfuns_pca)
 S3method(print,myfuns_reg_poly)
 S3method(print,myfuns_resumo_misto)
+
