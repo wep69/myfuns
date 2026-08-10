@@ -57,3 +57,13 @@ O núcleo usa dependências pequenas. Recursos avançados são opcionais e ativa
 install.packages("myfuns_0.5.0.tar.gz", repos = NULL, type = "source")
 library(myfuns)
 ```
+
+## Instalação pelo GitHub
+
+```r
+# Com vignettes
+devtools::install_github("wep69/myfuns")
+
+# Sem vignettes
+devtools::install_github("wep69/myfuns", build_vignettes = FALSE)
+```
