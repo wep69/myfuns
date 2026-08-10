@@ -46,3 +46,4 @@ Foram implementadas vinte funções planejadas para ampliar o pacote:
 - Reconstrução do pacote histórico de 2020 como pacote-fonte.
 - Inclusão de `equar2()`, `contrast_lista()` e tema transparente `trans`.
 - Modernização de temas e exportação de figuras.
+
