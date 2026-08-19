@@ -1,0 +1,16 @@
+pandoc: 3.8.3
+pkgdown: 2.2.1
+pkgdown_sha: ~
+articles:
+  bayes-produtividade: bayes-produtividade.html
+  delineamento-anova: delineamento-anova.html
+  diagnostico-modelos: diagnostico-modelos.html
+  emmeans-contrastes: emmeans-contrastes.html
+  graficos-publicacao: graficos-publicacao.html
+  introducao-myfuns: introducao-myfuns.html
+  pca-agri: pca-agri.html
+  regressao-equar2: regressao-equar2.html
+last_built: 2026-08-19T13:36Z
+urls:
+  reference: https://wep69.github.io/myfuns/reference
+  article: https://wep69.github.io/myfuns/articles
