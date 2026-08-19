@@ -1,0 +1,136 @@
+---
+title: "Regressão de fatores quantitativos"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Regressão de fatores quantitativos}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(myfuns)
+set.seed(2026)
+```
+
+# Dados
+
+```{r}
+dados <- expand.grid(
+  bloco = factor(1:5),
+  dose = c(0, 50, 100, 150, 200)
+)
+dados$y <- with(
+  dados,
+  25 + 0.18 * dose - 0.00060 * dose^2 +
+    rep(c(-1.5, 0, 1.2, -0.8, 0.5), each = 5) +
+    rnorm(nrow(dados), 0, 1.8)
+)
+```
+
+# `reg_poly()`
+
+A função ajusta todos os graus solicitados e mantém todos os modelos. Quando há vários graus, o modelo de maior grau é armazenado em `$model` apenas para gerar predições e gráficos; isso não significa que ele tenha sido selecionado como superior.
+
+## Exemplo 1: linear e quadrático
+
+```{r}
+rp1 <- reg_poly(dados, y, dose, degree = 1:2)
+rp1
+```
+
+## Exemplo 2: quadrático previamente definido
+
+```{r}
+rp2 <- reg_poly(dados, y, dose, degree = 2, compare = FALSE)
+rp2$coeficientes$grau2
+```
+
+## Exemplo 3: explorar até cúbico
+
+```{r}
+rp3 <- reg_poly(dados, y, dose, degree = 1:3)
+rp3$comparacao
+rp3$falta_ajuste
+```
+
+# Teste de falta de ajuste
+
+Quando há replicação em níveis de `x`, `reg_poly()` compara cada polinômio com um modelo que trata `x` como fator. O resultado ajuda a avaliar se a forma polinomial deixa estrutura sistemática sem explicar.
+
+# `ponto_critico()`
+
+## Exemplo 1: máximo quadrático
+
+```{r}
+mq <- lm(y ~ dose + I(dose^2), data = dados)
+ponto_critico(mq, range = range(dados$dose))
+```
+
+## Exemplo 2: checar extrapolação
+
+```{r}
+ponto_critico(mq, range = c(0, 100))
+```
+
+## Exemplo 3: diretamente do `reg_poly()`
+
+```{r}
+ponto_critico(rp2)
+```
+
+O intervalo da posição do ponto quadrático é aproximado pelo método delta. Pontos fora do intervalo experimental são explicitamente marcados como extrapolação.
+
+# `plot_reg()`
+
+## Exemplo 1: curva, dados, médias e IC
+
+```{r fig.width=6, fig.height=4}
+plot_reg(rp2)
+```
+
+## Exemplo 2: controlar dados e variáveis
+
+```{r fig.width=6, fig.height=4}
+plot_reg(rp2, data = dados, x = dose, y = y, show_raw = TRUE, show_means = TRUE)
+```
+
+## Exemplo 3: sem equação
+
+```{r fig.width=6, fig.height=4}
+plot_reg(rp2, equation = FALSE)
+```
+
+# `equar2()` e contrastes polinomiais
+
+`equar2()` continua disponível para o fluxo histórico que usa médias por dose e os p-valores dos contrastes linear e quadrático.
+
+```{r}
+dados$dose_f <- factor(dados$dose)
+mod_f <- lm(y ~ bloco + dose_f, data = dados)
+emm <- emmeans::emmeans(mod_f, ~ dose_f)
+cp <- contraste_poly(emm, scores = c(0, 50, 100, 150, 200), degree = 2)
+medias <- aggregate(y ~ dose, data = dados, FUN = mean)
+```
+
+## Exemplo 1
+
+```{r}
+equar2(medias, cp)
+```
+
+## Exemplo 2: retorno detalhado
+
+```{r}
+eq2 <- equar2(medias, cp, details = TRUE)
+eq2$equation
+eq2$p_values
+```
+
+## Exemplo 3: R² na escala 0 a 1
+
+```{r}
+equar2(medias, cp, r2_percent = FALSE, digits = c(2, 4, 5, 3))
+```
+
+A equação de `equar2()` é ajustada às médias fornecidas. Portanto, o R² mostrado descreve a regressão dessas médias, não o ajuste às unidades experimentais individuais.

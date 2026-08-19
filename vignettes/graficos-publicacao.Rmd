@@ -1,0 +1,115 @@
+---
+title: "Temas e exportação de figuras científicas"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Temas e exportação de figuras científicas}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(myfuns)
+```
+
+# Temas
+
+```{r}
+p <- ggplot2::ggplot(mtcars, ggplot2::aes(wt, mpg)) +
+  ggplot2::geom_point(size = 2.5) +
+  ggplot2::labs(x = "Peso", y = "Consumo")
+```
+
+## `theme_nogrid()`
+
+```{r fig.width=6, fig.height=4}
+p + theme_nogrid()
+```
+
+## `theme_nogridacp()`
+
+```{r fig.width=6, fig.height=4}
+p + theme_nogridacp()
+```
+
+## `theme_transparent()` e `trans`
+
+```{r fig.width=6, fig.height=4}
+p + trans
+```
+
+```{r}
+theme_transparent()
+```
+
+# `ExportTimes()`
+
+A função exporta uma figura individual. Os padrões históricos são 20 × 15 cm e 600 dpi para os formatos raster, mas todos esses valores podem ser alterados.
+
+## Exemplo 1: PNG e SVG
+
+```{r eval=FALSE}
+ExportTimes(
+  p + theme_nogrid(),
+  "figuras/Figura_1",
+  formats = c("png", "svg")
+)
+```
+
+## Exemplo 2: TIFF
+
+```{r eval=FALSE}
+ExportTimes(
+  p + theme_nogrid(),
+  "figuras/Figura_1",
+  formats = "tiff",
+  compression = "lzw"
+)
+```
+
+## Exemplo 3: fundo transparente
+
+```{r eval=FALSE}
+ExportTimes(
+  p + trans,
+  "figuras/Figura_transparente",
+  formats = c("png", "svg"),
+  bg = "transparent"
+)
+```
+
+# `export_figuras()`
+
+A função aplica `ExportTimes()` a uma lista nomeada.
+
+```{r}
+p2 <- ggplot2::ggplot(iris, ggplot2::aes(Species, Sepal.Length)) +
+  ggplot2::geom_boxplot() + theme_nogrid()
+```
+
+## Exemplo 1
+
+```{r eval=FALSE}
+export_figuras(list(fig1 = p, fig2 = p2), "figuras", formats = "png")
+```
+
+## Exemplo 2
+
+```{r eval=FALSE}
+export_figuras(list(fig1 = p, fig2 = p2), "figuras", formats = c("png", "tiff", "svg"))
+```
+
+## Exemplo 3
+
+```{r eval=FALSE}
+export_figuras(
+  list(fig1 = p + trans, fig2 = p2 + trans),
+  "figuras_transparentes",
+  formats = c("png", "svg"),
+  bg = "transparent"
+)
+```
+
+# Recomendações de uso
+
+Para variáveis contínuas, prefira mostrar observações ou distribuição juntamente com estimativas e incerteza. `plot_emmeans()` e `plot_reg()` foram adicionadas justamente para facilitar esse padrão de apresentação.

@@ -1,0 +1,123 @@
+---
+title: "Introdução ao myfuns 0.5.0"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introdução ao myfuns 0.5.0}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(myfuns)
+```
+
+# Finalidade
+
+`myfuns` é uma camada de apoio para análise estatística aplicada à experimentação agrícola. A versão 0.5.0 preserva as funções históricas e acrescenta vinte funções para auditoria de delineamentos, descrição, ANOVA, `emmeans`, regressão quantitativa, diagnóstico, modelos mistos, contagens, PCA, Bayes e exportação de figuras.
+
+A filosofia do pacote é auxiliar o fluxo de trabalho sem substituir decisões científicas. Nenhuma função seleciona tratamento, modelo, distribuição ou grau polinomial apenas com base em um valor de p.
+
+# Organização funcional
+
+| Etapa | Funções principais |
+|---|---|
+| Verificação do banco | `auditar_delineamento()`, `resumo_agri()` |
+| ANOVA | `anovaCV()`, `anova_agri()` |
+| Médias e contrastes | `emmeans_lista()`, `comparar_emmeans()`, `contrast_lista()`, `cld_lista()`, `contraste_poly()` |
+| Fatores quantitativos | `reg_poly()`, `ponto_critico()`, `equar2()`, `plot_reg()` |
+| Diagnóstico | `diagnostico_modelo()`, `diagnostico_contagem()` |
+| Modelos mistos | `resumo_misto()` |
+| Comparação de modelos | `comparar_modelos()` |
+| PCA | `pca_agri()`, `plot_pca_agri()` |
+| Bayes | `resumo_bayes()` |
+| Gráficos | `plot_emmeans()`, `theme_nogrid()`, `theme_nogridacp()`, `theme_transparent()`, `trans` |
+| Exportação | `ExportTimes()`, `export_figuras()` |
+| Área de transferência | `read_clipboard_table()`, `write_clipboard_table()` e aliases históricos |
+
+# Exemplo integrado: delineamento em blocos com doses
+
+```{r}
+set.seed(2026)
+dados <- expand.grid(
+  bloco = factor(1:5),
+  dose = c(0, 50, 100, 150, 200)
+)
+dados$produtividade <- with(
+  dados,
+  40 + 0.20 * dose - 0.00065 * dose^2 +
+    rep(c(-2, 1, 0, 2, -1), each = 5) +
+    rnorm(nrow(dados), 0, 2)
+)
+```
+
+## 1. Auditar antes de modelar
+
+```{r}
+auditar_delineamento(
+  dados,
+  tratamento = dose,
+  bloco = bloco,
+  resposta = produtividade
+)
+```
+
+## 2. Resumir os dados observados
+
+```{r}
+resumo_agri(dados, produtividade, dose)
+```
+
+## 3. Ajustar o fator quantitativo
+
+```{r}
+rp <- reg_poly(dados, produtividade, dose, degree = 1:2)
+rp
+```
+
+A tabela comparativa não representa seleção automática. O pesquisador deve avaliar forma da resposta, falta de ajuste, incerteza, domínio experimental, diagnóstico dos resíduos e coerência agronômica.
+
+## 4. Obter o ponto crítico
+
+```{r}
+ponto_critico(rp)
+```
+
+## 5. Produzir a figura
+
+```{r fig.width=6, fig.height=4}
+plot_reg(rp)
+```
+
+# Delineamento qualitativo e médias ajustadas
+
+```{r}
+dq <- transform(dados, dose_f = factor(dose))
+m <- lm(produtividade ~ bloco + dose_f, data = dq)
+
+anova_agri(m)
+cmp <- comparar_emmeans(m, ~ dose_f, method = "pairwise", adjust = "tukey")
+plot_emmeans(cmp, data = dq, x = dose_f, y = produtividade)
+```
+
+# Contrastes polinomiais com doses reais
+
+```{r}
+emm <- emmeans::emmeans(m, ~ dose_f)
+cp <- contraste_poly(emm, scores = c(0, 50, 100, 150, 200), degree = 2)
+cp
+```
+
+Para doses desigualmente espaçadas, `contraste_poly()` usa `opoly` quando `normalized = TRUE`, preservando os valores quantitativos informados em `scores`.
+
+# Próximas vinhetas
+
+Consulte as vinhetas temáticas para exemplos mais extensos:
+
+1. delineamento, descrição e ANOVA;
+2. médias marginais e contrastes;
+3. regressão quantitativa;
+4. diagnóstico, modelos mistos e contagens;
+5. PCA;
+6. Bayes e produtividade;
+7. gráficos e exportação.

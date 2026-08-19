@@ -1,0 +1,40 @@
+Package: myfuns
+Type: Package
+Title: Ferramentas Auxiliares para Análise Estatística e Gráficos em R
+Version: 0.5.0
+Authors@R: person(given = "Walter Esfrain", family = "Pereira", email = "walterufpb@yahoo.com.br", role = c("aut", "cre"))
+Description: Reúne funções auxiliares para experimentação agrícola, auditoria de
+    delineamentos, estatística descritiva, análise de variância, médias marginais
+    estimadas, contrastes, regressão de fatores quantitativos, diagnóstico e
+    comparação de modelos, modelos mistos, modelos de contagem, análise de
+    componentes principais, resumos bayesianos, produção e exportação de figuras
+    científicas e transferência tabular pela área de transferência. O pacote
+    prioriza estimativas, incerteza, diagnóstico e transparência, sem automatizar
+    decisões científicas críticas.
+License: file LICENSE
+Encoding: UTF-8
+Depends: R (>= 4.1.0)
+Imports:
+    emmeans (>= 1.11.1),
+    ggplot2 (>= 3.4.0),
+    multcomp,
+    rlang
+Suggests:
+    bayestestR,
+    brms,
+    devEMF,
+    DHARMa,
+    effectsize,
+    glmmTMB,
+    knitr,
+    lme4,
+    MASS,
+    multcompView,
+    performance,
+    rmarkdown,
+    testthat (>= 3.0.0)
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+Roxygen: list(markdown = TRUE)
+LazyData: false
+Config/roxygen2/version: 8.1.0

@@ -1,0 +1,62 @@
+template:
+  bootstrap: 5
+
+reference:
+  - title: Delineamento e descrição
+    contents:
+      - auditar_delineamento
+      - resumo_agri
+      - anovaCV
+      - anova_agri
+  - title: Médias, contrastes e comparações
+    contents:
+      - emmeans_lista
+      - comparar_emmeans
+      - contrast_lista
+      - cld_lista
+      - contraste_poly
+      - plot_emmeans
+  - title: Regressão quantitativa
+    contents:
+      - reg_poly
+      - ponto_critico
+      - equar2
+      - plot_reg
+  - title: Diagnóstico e modelos
+    contents:
+      - diagnostico_modelo
+      - resumo_misto
+      - diagnostico_contagem
+      - comparar_modelos
+  - title: Multivariada e Bayes
+    contents:
+      - pca_agri
+      - plot_pca_agri
+      - resumo_bayes
+  - title: Gráficos e exportação
+    contents:
+      - theme_nogrid
+      - theme_nogridacp
+      - theme_transparent
+      - trans
+      - ExportTimes
+      - export_figuras
+  - title: Área de transferência
+    contents:
+      - read_clipboard_table
+      - write_clipboard_table
+      - read_excel
+      - write_excel
+
+articles:
+  - title: Primeiros passos
+    navbar: ~
+    contents:
+      - introducao-myfuns
+      - delineamento-anova
+      - emmeans-contrastes
+      - regressao-equar2
+      - diagnostico-modelos
+      - pca-agri
+      - bayes-produtividade
+      - graficos-publicacao

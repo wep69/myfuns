@@ -1,0 +1,35 @@
+# R session data
+.Rhistory
+.RData
+.Rproj.user/
+.Ruserdata
+
+# R CMD check artifacts
+*.Rcheck/
+*.tar.gz
+
+# Built vignettes output
+/doc/
+/Meta/
+/vignettes/*_files/
+
+# pkgdown site
+docs/
+
+# IDE
+.Rproj.user
+*.Rproj
+
+# OS
+.DS_Store
+Thumbs.db
+
+# knitr/sweave output
+*-Ex.R
+*_cache/
+*_cache/
+
+# Compiled output
+/src/*.o
+/src/*.so
+/src/*.dll

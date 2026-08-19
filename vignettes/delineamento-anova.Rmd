@@ -1,0 +1,141 @@
+---
+title: "Delineamento, resumo descritivo e ANOVA"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Delineamento, resumo descritivo e ANOVA}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(myfuns)
+set.seed(2026)
+```
+
+# Dados didáticos
+
+```{r}
+dados_dbc <- expand.grid(
+  bloco = factor(1:5),
+  tratamento = factor(c("Controle", "A", "B", "C"))
+)
+dados_dbc$produtividade <- 42 +
+  c(0, 5, 9, 7)[dados_dbc$tratamento] +
+  rep(c(-2, 1, 0, 2, -1), each = 4) +
+  rnorm(nrow(dados_dbc), 0, 2)
+```
+
+# `auditar_delineamento()`
+
+A auditoria é realizada antes do ajuste. Ela descreve níveis, combinações previstas, células ausentes, respostas ausentes, balanceamento e, quando `unidade` é informada, duplicação do identificador da unidade experimental.
+
+## Exemplo 1: DBC completo
+
+```{r}
+aud1 <- auditar_delineamento(
+  dados_dbc,
+  tratamento = tratamento,
+  bloco = bloco,
+  resposta = produtividade
+)
+aud1
+```
+
+## Exemplo 2: tratamento ausente em um bloco
+
+```{r}
+dados_incompletos <- dados_dbc[-7, ]
+aud2 <- auditar_delineamento(
+  dados_incompletos,
+  tratamento = tratamento,
+  bloco = bloco,
+  resposta = produtividade
+)
+aud2$celulas_ausentes
+```
+
+## Exemplo 3: fatorial com fatores adicionais
+
+```{r}
+fat <- expand.grid(
+  bloco = factor(1:4),
+  salinidade = factor(c("0.5", "3.0")),
+  plantas = factor(c("1", "2")),
+  porta_enxerto = factor(c("A", "B", "C"))
+)
+fat$y <- rnorm(nrow(fat), 20, 3)
+
+auditar_delineamento(
+  fat,
+  tratamento = salinidade,
+  bloco = bloco,
+  fatores = c(plantas, porta_enxerto),
+  resposta = y
+)
+```
+
+# `resumo_agri()`
+
+A função retorna `n`, total de linhas, ausências, média, desvio-padrão, erro-padrão, intervalo de confiança, mediana, quartis, extremos e CV descritivo.
+
+## Exemplo 1: por tratamento
+
+```{r}
+resumo_agri(dados_dbc, produtividade, tratamento)
+```
+
+## Exemplo 2: por tratamento e bloco
+
+```{r}
+resumo_agri(dados_dbc, produtividade, tratamento, bloco)
+```
+
+## Exemplo 3: intervalo de 90%
+
+```{r}
+resumo_agri(dados_dbc, produtividade, tratamento, conf.level = 0.90)
+```
+
+O CV é apresentado como descrição e não como critério universal de qualidade. Respostas de contagem, proporções ou médias próximas de zero requerem interpretação específica.
+
+# `anova_agri()`
+
+```{r}
+mod_dbc <- lm(produtividade ~ tratamento + bloco, data = dados_dbc)
+```
+
+## Exemplo 1: DBC
+
+```{r}
+anova_agri(mod_dbc)
+```
+
+## Exemplo 2: interação fatorial
+
+```{r}
+m2 <- lm(Sepal.Length ~ Species * cut(Petal.Width, 2), data = iris)
+anova_agri(m2, effect_size = "eta2")
+```
+
+## Exemplo 3: sem CV
+
+```{r}
+anova_agri(
+  lm(weight ~ group, data = PlantGrowth),
+  cv = FALSE,
+  effect_size = "eta2_partial"
+)
+```
+
+Quando `effectsize` está instalado, os tamanhos de efeito são obtidos diretamente por esse pacote. Na ausência dele, `myfuns` consegue calcular eta² parcial básico para modelos `lm`, mas sem intervalo de confiança.
+
+# Fluxo recomendado
+
+```{r}
+auditar_delineamento(dados_dbc, tratamento, bloco, resposta = produtividade)
+resumo_agri(dados_dbc, produtividade, tratamento)
+anova_agri(mod_dbc)
+```
+
+A sequência reduz o risco de interpretar uma ANOVA sem ter verificado previamente a estrutura do banco.
