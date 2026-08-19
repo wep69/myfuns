@@ -1,7 +1,12 @@
+url: https://wep69.github.io/myfuns
+
 template:
   bootstrap: 5
 
 reference:
+  - title: "Visão geral"
+    contents:
+      - myfuns-package
   - title: Delineamento e descrição
     contents:
       - auditar_delineamento
