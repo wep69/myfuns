@@ -12,7 +12,7 @@ Description: Reúne funções auxiliares para experimentação agrícola, audito
     prioriza estimativas, incerteza, diagnóstico e transparência, sem automatizar
     decisões científicas críticas.
 License: file LICENSE
-URL: https://wep69.github.io/myfuns, https://github.com/wep69/myfuns
+URL: https://wep69.github.io/myfuns/, https://github.com/wep69/myfuns
 BugReports: https://github.com/wep69/myfuns/issues
 Encoding: UTF-8
 Depends: R (>= 4.1.0)

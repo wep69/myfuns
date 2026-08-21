@@ -1,2 +1,10 @@
 ^doc$
 ^Meta$
+^\.github$
+^CRAN-NOTES\.md$
+^MANUAL\.md$
+^MODERNIZATION_REPORT\.md$
+^VALIDACAO_ESTRUTURAL\.md$
+^_pkgdown\.yml$
+^\.superpowers$
+^docs$
