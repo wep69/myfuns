@@ -41,4 +41,8 @@ plot_reg(rp)
 plot_reg(rp, data = d, x = dose, y = y, show_raw = TRUE, show_means = TRUE)
 
 plot_reg(rp, equation = FALSE)
+
+# Exemplo com equação personalizada via equar2()
+eq <- equar2(rp, details = TRUE)
+plot_reg_equation(rp, equation_text = eq$equation)
 }
