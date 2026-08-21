@@ -181,3 +181,26 @@
   if (!is.finite(media) || abs(media) <= sqrt(.Machine$double.eps) || !is.finite(sigma)) return(NA_real_)
   100 * sigma / abs(media)
 }
+
+# Conversao plotmath -> texto simples (interno) --------------------------------
+.plotmath_to_plain <- function(x) {
+  out <- x
+
+  # Processar por blocos para suportar aninhamento simples
+  # 1. hat(y) -> y
+  out <- gsub("hat\\s*\\(([^)]+)\\)", "\\1", out)
+  # 2. bar(y) -> ȳ
+  out <- gsub("bar\\s*\\(([^)]+)\\)", "\\1\u0305", out)
+  # 3. bold(x) / italic(x) / bolditalic(x) -> x
+  out <- gsub("(?:bold|italic|bolditalic)\\s*\\(([^)]+)\\)", "\\1", out)
+  # 4. frac(a, b) -> a/b
+  out <- gsub("frac\\s*\\(([^,]+),\\s*([^)]+)\\)", "\\1/\\2", out)
+  # 5. sqrt(x) -> √(x)
+  out <- gsub("sqrt\\s*\\(([^)]+)\\)", "\u221A(\\1)", out)
+  # 6. Spacing: ~ e whitespace do plotmath
+  out <- gsub("~", " ", out)
+  out <- gsub("\\s+", " ", out)
+  out <- trimws(out)
+
+  out
+}

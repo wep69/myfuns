@@ -203,9 +203,17 @@ plot_reg <- function(object,
 #' @param equation_text Texto da equação a ser exibido. Deve ser uma string
 #'   de caractere única e não vazia, tipicamente obtida de
 #'   `equar2(..., details = TRUE)$equation`.
-#' @param ... Argumentos adicionais passados para [plot_reg()].
+#' @param ... Argumentos adicionais passados para [plot_reg()] (exceto `equation`,
+#'   que \u00e9 controlado internamente por esta fun\u00e7\u00e3o).
 #'
-#' @return Objeto `ggplot` com a equação adicionada como subtítulo.
+#' @details
+#' Se `equation_text` contiver sintaxe de \emph{plotmath} (gerada por
+#' [equar2()] com `details = FALSE`), o texto \u00e9 convertido automaticamente
+#' para texto simples antes de ser inserido no subt\u00edtulo. Isso evita que
+#' c\u00f3digo de plotmath apare\u00e7a cru no gr\u00e1fico, pois `labs(subtitle = ...)`
+#' n\u00e3o interpreta express\u00f5es plotmath.
+#'
+#' @return Objeto `ggplot` com a equa\u00e7\u00e3o adicionada como subt\u00edtulo.
 #' @export
 #'
 #' @examples
@@ -229,10 +237,23 @@ plot_reg_equation <- function(object, equation_text, ...) {
     stop("`equation_text` deve ser uma string de caractere \u00fanica e n\u00e3o vazia.", call. = FALSE)
   }
 
-  # Construir o gráfico base via plot_reg (com equation = FALSE para não duplicar)
-  p <- plot_reg(object, equation = FALSE, ...)
+  # Normalizar e preparar texto para exibi\u00e7\u00e3o
+  equation_text <- trimws(equation_text)
 
-  # Adicionar a equação como subtítulo
+  # Converter plotmath para texto simples quando detectado
+  has_plotmath <- grepl("(hat|bar|bold|italic|bolditalic|frac|sqrt|list|group|atop)\\s*\\(", equation_text, useBytes = FALSE)
+  if (has_plotmath) {
+    equation_text <- .plotmath_to_plain(equation_text)
+  }
+
+  # Remover 'equation' do ... antes de encaminhar para plot_reg
+  dots <- list(...)
+  dots[["equation"]] <- NULL
+
+  # Construir o gr\u00e1fico base via plot_reg (com equation = FALSE para n\u00e3o duplicar)
+  p <- do.call(plot_reg, c(list(object = object, equation = FALSE), dots))
+
+  # Adicionar a equa\u00e7\u00e3o como subt\u00edtulo
   p <- p + ggplot2::labs(subtitle = equation_text)
 
   p

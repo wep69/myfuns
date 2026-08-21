@@ -49,3 +49,20 @@ test_that("equar2 reconhece contraste_poly com espaçamento desigual", {
   medias$dose <- as.numeric(as.character(medias$dose))
   expect_no_warning(equar2(medias, cp))
 })
+
+test_that("plot_reg_equation converte plotmath de equar2 para texto simples", {
+  medias <- data.frame(x = 0:4, y = c(10, 20, 25, 28, 30))
+  lin <- data.frame(contrast = c("linear", "quadratic"), p.value = c(0.001, 0.30))
+  eq <- equar2(medias, lin)
+
+  d <- data.frame(x = rep(0:4, each = 3))
+  d$y <- 10 + 4 * d$x + rnorm(nrow(d), sd = 0.5)
+  r <- reg_poly(d, y, x, degree = 1)
+
+  p <- plot_reg_equation(r, equation_text = eq)
+  sub <- ggplot2::ggplot_build(p)$plot$labels$subtitle
+  # plotmath foi removido: hat() nao deve aparecer
+  expect_false(grepl("hat\\(", sub))
+  # os valores numericos devem permanecer
+  expect_true(grepl("\\d+\\.\\d+", sub))
+})

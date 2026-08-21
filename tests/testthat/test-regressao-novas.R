@@ -77,3 +77,34 @@ test_that("plot_reg_equation aceita argumentos extras de plot_reg", {
   p <- plot_reg_equation(r, equation_text = "test eq", show_raw = FALSE)
   expect_s3_class(p, "ggplot")
 })
+
+test_that("plot_reg_equation ignora argumento equation via ...", {
+  d <- data.frame(x = rep(0:4, each = 3))
+  d$y <- 5 + d$x + rnorm(nrow(d), sd = 0.1)
+  r <- reg_poly(d, y, x, degree = 1)
+  # Se 'equation' fosse encaminhado a plot_reg(), causaria conflito.
+  p <- plot_reg_equation(r, equation_text = "eq test", equation = TRUE)
+  expect_s3_class(p, "ggplot")
+  expect_equal(ggplot2::ggplot_build(p)$plot$labels$subtitle, "eq test")
+})
+
+test_that("plot_reg_equation converte plotmath para texto simples no subtítulo", {
+  d <- data.frame(x = rep(0:4, each = 3))
+  d$y <- 5 + d$x + rnorm(nrow(d), sd = 0.1)
+  r <- reg_poly(d, y, x, degree = 1)
+  eq <- "hat(y) == 5.00 + 1.00 * x ~ \";\" ~ R^2 == \"0.98\""
+  p <- plot_reg_equation(r, equation_text = eq)
+  built <- ggplot2::ggplot_build(p)
+  sub <- built$plot$labels$subtitle
+  expect_false(grepl("hat\\(", sub))
+  expect_true(grepl("y", sub))
+  expect_true(grepl("R", sub))
+})
+
+test_that("plot_reg_equation rejeita object de tipo invalido", {
+  invalid_obj <- lm(mpg ~ wt, data = mtcars)
+  expect_error(
+    plot_reg_equation(invalid_obj, equation_text = "y = 2 + 3 * x"),
+    "object.*reg_poly\\(\\)"
+  )
+})
