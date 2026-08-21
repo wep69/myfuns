@@ -28,3 +28,16 @@ test_that("resumo_misto funciona quando lme4 está instalado", {
   expect_s3_class(r, "myfuns_resumo_misto")
   expect_true(is.data.frame(r$efeitos_fixos))
 })
+
+test_that("diagnostico_modelo returns grafico=NULL when plot=FALSE", {
+  m1 <- stats::lm(weight ~ group, data = PlantGrowth)
+  resultado <- diagnostico_modelo(m1, plot = FALSE, verbose = FALSE)
+  expect_null(resultado$grafico)
+})
+
+test_that("diagnostico_modelo returns non-NULL grafico when plot=TRUE", {
+  skip_if_not_installed("performance")
+  m1 <- stats::lm(weight ~ group, data = PlantGrowth)
+  resultado <- diagnostico_modelo(m1, plot = TRUE, verbose = FALSE)
+  expect_false(is.null(resultado$grafico))
+})

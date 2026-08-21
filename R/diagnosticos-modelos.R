@@ -77,6 +77,7 @@ diagnostico_modelo <- function(model,
     }
     checks$desempenho <- .safe_call(performance::model_performance(model))
     grafico <- if (isTRUE(plot)) .safe_call(performance::check_model(model)) else NULL
+    if (isTRUE(plot) && !is.null(grafico)) print(grafico)
   } else {
     grafico <- NULL
     checks$nota_performance <- "Instale `performance` para verifica\u00E7\u00F5es adicionais de heterocedasticidade, colinearidade, dispers\u00E3o, zeros, converg\u00EAncia e singularidade."
