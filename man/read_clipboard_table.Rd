@@ -18,9 +18,12 @@ Nome moderno para o fluxo histórico de [read_excel()]. A função lê texto tab
 Consulte as vinhetas do pacote para interpretação, limitações e fluxos integrados. A função não deve substituir a avaliação do delineamento e da pergunta científica.
 }
 \examples{
+# Requer interação manual com a área de transferência do Windows.
 \dontrun{dados <- read_clipboard_table()}
 
+# Requer interação manual com a área de transferência do Windows.
 \dontrun{dados <- read_clipboard_table(dec = ",", na.strings = c("", "NA"))}
 
+# Requer interação manual com a área de transferência do Windows.
 \dontrun{dados <- read_clipboard_table(header = FALSE)}
 }

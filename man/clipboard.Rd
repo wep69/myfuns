@@ -23,6 +23,7 @@ escrevem arquivos .xlsx diretamente.
 \code{NULL} invisivelmente.
 }
 \examples{
+# Requer interação manual com a área de transferência do Windows.
 \dontrun{
 dados <- read_excel(header = TRUE, dec = ",")
 write_excel(dados)
