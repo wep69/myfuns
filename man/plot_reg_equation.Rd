@@ -14,10 +14,10 @@ de caractere única e não vazia, tipicamente obtida de
 \code{equar2(..., details = TRUE)$equation}.}
 
 \item{...}{Argumentos adicionais passados para \code{\link[=plot_reg]{plot_reg()}} (exceto \code{equation},
-que \u00e9 controlado internamente por esta fun\u00e7\u00e3o).}
+que é controlado internamente por esta função).}
 }
 \value{
-Objeto \code{ggplot} com a equa\u00e7\u00e3o adicionada como subt\u00edtulo.
+Objeto \code{ggplot} com a equação adicionada como subtítulo.
 }
 \description{
 Constrói o mesmo gráfico de \code{\link[=plot_reg]{plot_reg()}} mas adiciona uma equação
@@ -27,10 +27,10 @@ e evitar sobreposição com a curva ajustada.
 }
 \details{
 Se \code{equation_text} contiver sintaxe de \emph{plotmath} (gerada por
-\code{\link[=equar2]{equar2()}} com \code{details = FALSE}), o texto \u00e9 convertido automaticamente
-para texto simples antes de ser inserido no subt\u00edtulo. Isso evita que
-c\u00f3digo de plotmath apare\u00e7a cru no gr\u00e1fico, pois \code{labs(subtitle = ...)}
-n\u00e3o interpreta express\u00f5es plotmath.
+\code{\link[=equar2]{equar2()}} com \code{details = FALSE}), o texto é convertido automaticamente
+para texto simples antes de ser inserido no subtítulo. Isso evita que
+código de plotmath apareça cru no gráfico, pois \code{labs(subtitle = ...)}
+não interpreta expressões plotmath.
 }
 \examples{
 d <- data.frame(dose = rep(c(0, 50, 100, 150), each = 4))
@@ -39,7 +39,6 @@ rp <- reg_poly(d, y, dose, degree = 2)
 plot_reg_equation(rp, equation_text = "y = 12 + 0.2 * dose - 0.001 * dose^2")
 
 }
-\figure{plot_reg_equation_example.png}{Example with rendered equation}
 \seealso{
 \code{\link[=plot_reg]{plot_reg()}}, \code{\link[=equar2]{equar2()}}, \code{\link[=reg_poly]{reg_poly()}}
 }

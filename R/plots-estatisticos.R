@@ -204,16 +204,16 @@ plot_reg <- function(object,
 #'   de caractere única e não vazia, tipicamente obtida de
 #'   `equar2(..., details = TRUE)$equation`.
 #' @param ... Argumentos adicionais passados para [plot_reg()] (exceto `equation`,
-#'   que \u00e9 controlado internamente por esta fun\u00e7\u00e3o).
+#'   que é controlado internamente por esta função).
 #'
 #' @details
 #' Se `equation_text` contiver sintaxe de \emph{plotmath} (gerada por
-#' [equar2()] com `details = FALSE`), o texto \u00e9 convertido automaticamente
-#' para texto simples antes de ser inserido no subt\u00edtulo. Isso evita que
-#' c\u00f3digo de plotmath apare\u00e7a cru no gr\u00e1fico, pois `labs(subtitle = ...)`
-#' n\u00e3o interpreta express\u00f5es plotmath.
+#' [equar2()] com `details = FALSE`), o texto é convertido automaticamente
+#' para texto simples antes de ser inserido no subtítulo. Isso evita que
+#' código de plotmath apareça cru no gráfico, pois `labs(subtitle = ...)`
+#' não interpreta expressões plotmath.
 #'
-#' @return Objeto `ggplot` com a equa\u00e7\u00e3o adicionada como subt\u00edtulo.
+#' @return Objeto `ggplot` com a equação adicionada como subtítulo.
 #' @export
 #'
 #' @examples

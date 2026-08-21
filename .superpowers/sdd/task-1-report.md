@@ -95,7 +95,7 @@ regressao-novas: ...WWWW............
 **Date:** 2026-08-22
 **Status:** ✅ APPLIED
 **Tests:** ✅ 0 failures
-**Commit:** pending
+**Commit:** `09d2a6b` on branch `main`
 
 ### 1. Findings addressed
 

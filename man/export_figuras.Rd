@@ -33,6 +33,7 @@ Aplica [ExportTimes()] a uma lista de gráficos, padronizando nomes, pasta, form
 Consulte as vinhetas do pacote para interpretação, limitações e fluxos integrados. A função não deve substituir a avaliação do delineamento e da pergunta científica.
 }
 \examples{
+\donttest{
 p1 <- ggplot2::ggplot(mtcars,
     ggplot2::aes(wt, mpg)) +
   ggplot2::geom_point() +
@@ -41,23 +42,10 @@ p2 <- ggplot2::ggplot(iris,
     ggplot2::aes(Species, Sepal.Length)) +
   ggplot2::geom_boxplot() +
   theme_nogrid()
-\dontrun{
 export_figuras(list(mtcars = p1, iris = p2),
                tempdir(), formats = "png")
-}
-
-\dontrun{
 export_figuras(list(fig1 = p1, fig2 = p2),
                tempdir(), formats = "tiff",
                dpi = 600)
-}
-
-\dontrun{
-export_figuras(
-  list(fig1 = p1 + trans,
-       fig2 = p2 + trans),
-  tempdir(),
-  formats = c("png", "svg"),
-  bg = "transparent")
 }
 }

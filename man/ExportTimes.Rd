@@ -38,7 +38,7 @@ dispositivo \code{win.metafile()}.
 }
 \value{Vetor nomeado com os arquivos produzidos.}
 \examples{
-\dontrun{
+\donttest{
 p <- ggplot2::ggplot(mtcars, ggplot2::aes(wt, mpg)) +
   ggplot2::geom_point() + theme_nogrid()
 ExportTimes(p, file.path(tempdir(), "figura_1"), formats = c("png", "svg"))
