@@ -23,3 +23,57 @@ test_that("plot_reg retorna ggplot", {
   r <- reg_poly(d, y, x, degree = 1)
   expect_s3_class(plot_reg(r), "ggplot")
 })
+
+# --- Tests for plot_reg_equation() ---
+
+test_that("plot_reg_equation retorna ggplot", {
+  d <- data.frame(x = rep(0:4, each = 3))
+  d$y <- 5 + d$x + rnorm(nrow(d), sd = 0.1)
+  r <- reg_poly(d, y, x, degree = 1)
+  p <- plot_reg_equation(r, equation_text = "y = 5 + 1.0 * x")
+  expect_s3_class(p, "ggplot")
+})
+
+test_that("plot_reg_equation para quando equation_text esta faltando", {
+  d <- data.frame(x = rep(0:4, each = 3))
+  d$y <- 5 + d$x + rnorm(nrow(d), sd = 0.1)
+  r <- reg_poly(d, y, x, degree = 1)
+  expect_error(plot_reg_equation(r), "equation_text.*obrigat")
+})
+
+test_that("plot_reg_equation para quando equation_text nao e character(1)", {
+  d <- data.frame(x = rep(0:4, each = 3))
+  d$y <- 5 + d$x + rnorm(nrow(d), sd = 0.1)
+  r <- reg_poly(d, y, x, degree = 1)
+
+  # numeric
+  expect_error(plot_reg_equation(r, equation_text = 123), "caractere")
+  # character with length > 1
+  expect_error(plot_reg_equation(r, equation_text = c("a", "b")), "caractere")
+  # empty string
+  expect_error(plot_reg_equation(r, equation_text = ""), "caractere")
+  # NA
+  expect_error(plot_reg_equation(r, equation_text = NA_character_), "caractere")
+  # NULL
+  expect_error(plot_reg_equation(r, equation_text = NULL), "equation_text.*obrigat")
+})
+
+test_that("plot_reg_equation inclui equation_text no subtitulo do grafico", {
+  d <- data.frame(x = rep(0:4, each = 3))
+  d$y <- 5 + d$x + rnorm(nrow(d), sd = 0.1)
+  r <- reg_poly(d, y, x, degree = 1)
+  eq <- "y = 5 + 1.0 * dose"
+  p <- plot_reg_equation(r, equation_text = eq)
+  built <- ggplot2::ggplot_build(p)
+  # The subtitle should appear in the plot's labs
+  expect_equal(built$plot$labels$subtitle, eq)
+})
+
+test_that("plot_reg_equation aceita argumentos extras de plot_reg", {
+  d <- data.frame(x = rep(0:4, each = 3))
+  d$y <- 5 + d$x + rnorm(nrow(d), sd = 0.1)
+  r <- reg_poly(d, y, x, degree = 1)
+  # Pass show_raw = FALSE and equation = TRUE (should still work)
+  p <- plot_reg_equation(r, equation_text = "test eq", show_raw = FALSE)
+  expect_s3_class(p, "ggplot")
+})

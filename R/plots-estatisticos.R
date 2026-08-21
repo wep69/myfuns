@@ -42,13 +42,13 @@ plot_emmeans <- function(object,
     est <- as.data.frame(summary(object, infer = c(TRUE, FALSE)))
     cld <- NULL
   }
-  if (!identical(interval, "confidence")) warning("No momento, `interval` usa os intervalos de confiança disponíveis em `emmeans`.", call. = FALSE)
+  if (!identical(interval, "confidence")) warning("No momento, `interval` usa os intervalos de confian\u00e7a dispon\u00edveis em `emmeans`.", call. = FALSE)
 
   emm_x <- .primary_emm_var(est)
-  if (is.null(emm_x)) stop("Não foi possível identificar a variável principal das EMMs.", call. = FALSE)
+  if (is.null(emm_x)) stop("N\u00e3o foi poss\u00edvel identificar a vari\u00e1vel principal das EMMs.", call. = FALSE)
   estimate_col <- .emm_estimate_col(est)
   ci <- .emm_ci_cols(est)
-  if (anyNA(ci)) stop("O objeto não contém limites de intervalo reconhecidos.", call. = FALSE)
+  if (anyNA(ci)) stop("O objeto n\u00e3o cont\u00e9m limites de intervalo reconhecidos.", call. = FALSE)
 
   stat_names <- c(estimate_col, "SE", "df", ci, "p.value", "t.ratio", "z.ratio")
   by_vars <- setdiff(names(est)[vapply(est, function(z) is.factor(z) || is.character(z), logical(1))], c(emm_x, stat_names))
@@ -82,7 +82,7 @@ plot_emmeans <- function(object,
       width = 0.12, position = dodge
     ) +
     ggplot2::geom_point(size = 2.6, position = dodge) +
-    ggplot2::labs(x = emm_x, y = "Média marginal estimada") +
+    ggplot2::labs(x = emm_x, y = "M\u00e9dia marginal estimada") +
     theme
 
   if (isTRUE(letters) && !is.null(cld) && ".group" %in% names(cld)) {
@@ -176,18 +176,64 @@ plot_reg <- function(object,
   if (isTRUE(equation)) {
     cf <- stats::coef(object$model)
     terms <- names(cf)
-    label <- paste0("ŷ = ", formatC(cf[1L], digits = 3, format = "fg"))
+    label <- paste0("\u0177 = ", formatC(cf[1L], digits = 3, format = "fg"))
     if (length(cf) >= 2L) {
       for (i in 2:length(cf)) {
         val <- cf[i]
         term <- terms[i]
         term <- gsub("I\\(([^)]+)\\)", "\\1", term)
-        label <- paste0(label, if (val >= 0) " + " else " - ", formatC(abs(val), digits = 3, format = "fg"), "·", term)
+        label <- paste0(label, if (val >= 0) " + " else " - ", formatC(abs(val), digits = 3, format = "fg"), "\u00b7", term)
       }
     }
     r2 <- summary(object$model)$r.squared
-    label <- paste0(label, "; R² = ", formatC(r2, digits = 3, format = "f"))
+    label <- paste0(label, "; R\u00b2 = ", formatC(r2, digits = 3, format = "f"))
     p <- p + ggplot2::annotate("text", x = -Inf, y = Inf, label = label, hjust = -0.03, vjust = 1.15)
   }
+  p
+}
+
+#' Gráfico de regressão com equação personalizada
+#'
+#' Constrói o mesmo gráfico de [plot_reg()] mas adiciona uma equação
+#' personalizada (gerada por [equar2()] com `details = TRUE`) como legenda
+#' do gráfico. A equação é exibida como subtítulo para facilitar a leitura
+#' e evitar sobreposição com a curva ajustada.
+#'
+#' @param object Resultado de [reg_poly()].
+#' @param equation_text Texto da equação a ser exibido. Deve ser uma string
+#'   de caractere única e não vazia, tipicamente obtida de
+#'   `equar2(..., details = TRUE)$equation`.
+#' @param ... Argumentos adicionais passados para [plot_reg()].
+#'
+#' @return Objeto `ggplot` com a equação adicionada como subtítulo.
+#' @export
+#'
+#' @examples
+#' d <- data.frame(dose = rep(c(0, 50, 100, 150), each = 4))
+#' d$y <- 12 + 0.2 * d$dose - 0.0008 * d$dose^2 + stats::rnorm(nrow(d))
+#' rp <- reg_poly(d, y, dose, degree = 2)
+#' plot_reg_equation(rp, equation_text = "y = 12 + 0.2 * dose - 0.001 * dose^2")
+#'
+#' @seealso [plot_reg()], [equar2()], [reg_poly()]
+plot_reg_equation <- function(object, equation_text, ...) {
+  # Validar object
+  if (!inherits(object, "myfuns_reg_poly")) {
+    stop("`object` deve ser resultado de `reg_poly()`.", call. = FALSE)
+  }
+
+  # Validar equation_text
+  if (missing(equation_text) || is.null(equation_text)) {
+    stop("`equation_text` \u00e9 obrigat\u00f3rio. Forne\u00e7a uma string de caractere \u00fanica (ex.: `equar2(..., details = TRUE)$equation`).", call. = FALSE)
+  }
+  if (!is.character(equation_text) || length(equation_text) != 1L || is.na(equation_text) || !nzchar(trimws(equation_text))) {
+    stop("`equation_text` deve ser uma string de caractere \u00fanica e n\u00e3o vazia.", call. = FALSE)
+  }
+
+  # Construir o gráfico base via plot_reg (com equation = FALSE para não duplicar)
+  p <- plot_reg(object, equation = FALSE, ...)
+
+  # Adicionar a equação como subtítulo
+  p <- p + ggplot2::labs(subtitle = equation_text)
+
   p
 }
