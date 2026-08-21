@@ -39,6 +39,7 @@ rp <- reg_poly(d, y, dose, degree = 2)
 plot_reg_equation(rp, equation_text = "y = 12 + 0.2 * dose - 0.001 * dose^2")
 
 }
+\figure{plot_reg_equation_example.png}{Example with rendered equation}
 \seealso{
 \code{\link[=plot_reg]{plot_reg()}}, \code{\link[=equar2]{equar2()}}, \code{\link[=reg_poly]{reg_poly()}}
 }
